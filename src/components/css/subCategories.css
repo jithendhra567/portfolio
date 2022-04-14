@@ -1,0 +1,11 @@
+.layout{ 
+    white-space:nowrap;
+    min-width:100%;
+    overflow-x:scroll;
+    overflow-y:hide;
+}
+
+.slide-layout{
+    display: flex;
+    width: max-content;
+}
