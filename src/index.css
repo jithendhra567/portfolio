@@ -4,6 +4,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200..900');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
 
+@font-face {
+  font-family: 'Futura';
+  src: url('./fonts/futur.ttf');
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -11,7 +16,7 @@ body {
 }
 
 *{
-  font-family: 'Cinzel', serif;
+  font-family: 'Futura', Fallback, sans-serif;
 }
 
 #cursor{
@@ -53,8 +58,8 @@ body {
   bottom: 26%;
 }
 
-.popins{
-  font-family:  "'Poppins', sans-serif";
+.futura{
+  font-family: 'Futura', Fallback, sans-serif;
 }
 
 .char{

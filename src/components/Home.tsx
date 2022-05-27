@@ -22,7 +22,7 @@ const vec = new THREE.Vector3();
 const Model = ({ open, hinge, page, keyboard, ...props }: {open: any, hinge: any, page: number, keyboard: any}) => {
     const group = useRef<GroupProps>()
     // Load model
-    const { nodes, materials }: any = useGLTF('/mac-draco.glb')
+    const { nodes, materials }: any = useGLTF('/mac-draco.glb');
     // Take care of cursor state on hover
     const [hovered, setHovered] = useState(false)
     useEffect(() => void (document.body.style.cursor = hovered ? 'pointer' : 'auto'), [hovered])
@@ -81,7 +81,7 @@ const Model = ({ open, hinge, page, keyboard, ...props }: {open: any, hinge: any
                 {page>=2 && page<5 && <mesh geometry={nodes['Cube008_2'].geometry}>
                     <Html className="content" rotation-x={-Math.PI / 2} position={[0, 0.05, -0.09]} transform occlude>
                         <div className="wrapper loading" style={{width: 333, height: 215}}>
-                            {page===2 && <img className='w-full h-full object-cover' src='./cvc.jpg' alt="" />}
+                            {page===2 && <img onClick={()=>alert('clicked')} className='w-full h-full object-cover' src='./cvc.jpg' alt="" />}
                             {page===3 && <img className='w-full h-full object-cover' src='./s.jpg' alt="" />}
                             {page===4 && <img className='w-full h-full object-cover' src='./olio.jpg' alt="" />}
                         </div>
@@ -159,13 +159,10 @@ const Laptop = (props: any)=>{
     });
 
     useEffect(()=>{
-        const a = document.getElementById('button');
         props.setPage(page);
-        console.log('page',page);
         if(page === 0){
-            gsap.set('.char', {fontFamily:  "'Cinzel', serif" });
-            gsap.to('.char', {duration: 0.3,x: 0, y: -60,fontSize: "6vw",  letterSpacing: 20, stagger: {from: 'end', each: 0.05}});
-            gsap.to('#hello', {duration: 0.5, width: 0});
+            gsap.to('.char', {duration: 0.3,x: 0, y: -60,fontSize: "6vw", letterSpacing: 40, fontWeight: 500 ,stagger: {from: 'end', each: 0.05}});
+            gsap.to('#hello', {duration: 0.5, width: 0,paddingLeft: 0});
             gsap.to('.line', {duration: 0.5, width: 0, stagger: 0.05});
             gsap.to('.info', {duration: 0.5, width: 0, x: -100});
             gsap.to('.icon', {duration: 0.1, display: 'none'});
@@ -175,46 +172,39 @@ const Laptop = (props: any)=>{
         }
         if(page === 1){
             gsap.to('.char', {duration: 0.1, height: 20,});
-            gsap.to('.char', {duration: 0.2,x: "-24vw", y: '-6vw', fontFamily:  "'Poppins', sans-serif" ,fontSize: "8vw", letterSpacing: 5, stagger: 0.05});
-            gsap.to('#hello', {duration: 0.5, width: 400});
+            gsap.to('.char', {duration: 0.2,x: "-20vw", y: '-8vw',fontSize: "8vw", letterSpacing: 5,fontWeight: 900 , stagger: 0.05});
+            gsap.to('#hello', {duration: 0.5, width: 300, paddingLeft: 10});
             gsap.to('.line', {duration: 0.5, width: 1000});
-            gsap.to('.info', {duration: 0.5, width: "44vw", background: '#D1E4F2', x: 0});
+            gsap.to('.info', {duration: 0.5, width: "47vw", background: '#D1E4F2', x: 0});
             gsap.to('.icon', {duration: 0.2, display: 'block',color: "#000"});
             gsap.to('.hide', {duration: 0.3, delay: 0.2, stagger: 0.1, width: 'max-content',color: "#000",maxWidth: 300});
             gsap.to('.CV', {duration: 0.3, y: 0});
             gsap.to('.nav', {duration: 0.3, y:0, color: 'black' ,stagger: 0.1});
-            gsap.to('.secondpage', {duration: 0.6, y: -1000, scale: 0});
-            gsap.set('.main', {background: "#fff", duration: 0.4});
-            gsap.to('.is-play', {duration: 0.3, scale: 0});
-            setTimeout(() => gsap.set('.main', {background: "url('https://gcdnb.pbrd.co/images/2ageFnaXbQS4.png?o=1')"}), 400);
+
+            gsap.to('.secondpage', {duration: 0.3, maxWidth: 0});
+            setTimeout(()=>gsap.to('.main', {background: "#fff", duration: 0.4}),200);
         }
         if(page === 2){
-            gsap.set('.char', {fontFamily:  "'Cinzel', serif" });
-            gsap.to('.char', {duration: 0.3,x: "-24vw", y: -1000,fontSize: "6vw",  letterSpacing: 20, stagger: {from: 'end', each: 0.05}});
-            gsap.to('#hello', {duration: 0.5, width: 0});
+            gsap.to('.char', {duration: 0.2, y: "-70vh",fontSize: "6vw",  letterSpacing: 20, stagger: {from: 'end', each: 0.05}});
+            setTimeout(()=>gsap.to('.secondpage', {duration: 0.6, maxWidth: '50vw'}), 200);
+            gsap.to('#hello', {duration: 0.5, width: 0, paddingLeft: 0});
             gsap.to('.line', {duration: 0.5, width: 0, stagger: 0.05});
             gsap.to('.info', {duration: 0.5, background: '#5684fe30', x: 0});
             gsap.to('.icon', {duration: 0.1, color: '#fff'});
             gsap.to('.hide', {duration: 0.3, stagger: 0.1, color: '#fff'});
             gsap.to('.nav', {color: 'white', duration: 0.3});
-            gsap.set('.secondpage', {scale: 1});
-            gsap.to('.secondpage', {duration: 0.6, y: 0, scale: 1});
-            gsap.to('.thirdpage', {duration: 0.6, x: 2000, scale: 0});
             gsap.to('.main', {background: '#28303e', duration: 0.3});
-            gsap.to('.is-play', {duration: 0.3, scale: 1, display: 'inline-block'});
-            if(a) a?.setAttribute('href', 'https://app-jithendhra.web.app/');
+
+            gsap.to('.thirdpage', {duration: 0.6, maxWidth: 0});
         }
         if(page === 3){
-            gsap.to('.secondpage', {duration: 0.6, y: -1000, scale: 0});
-            gsap.set('.thirdpage', {display: 'block'});
-            gsap.to('.thirdpage', {duration: 0.6, x: "48vw", scale: 1});
-            gsap.to('.fourthpage', {duration: 0.6, y: -1000, scale: 0});
-            if(a) a?.setAttribute('href', 'https://sarveksha.in/');
+            gsap.to('.secondpage', {duration: 0.6, maxWidth: 0});
+            gsap.to('.thirdpage', {duration: 0.6, maxWidth: '50vw'});
+            gsap.to('.fourthpage', {duration: 0.6, maxWidth: 0});
         }
         if(page === 4){
-            gsap.to('.thirdpage', {duration: 0.6, x: 2000,}).then(()=>gsap.set('.thirdpage', {display: 'none'}));
-            gsap.set('.fourthpage', {scale: 1});
-            gsap.to('.fourthpage', {duration: 0.6, y: 0, scale: 1});
+            gsap.to('.thirdpage', {duration: 0.6, maxWidth: 0});
+            gsap.to('.fourthpage', {duration: 0.6, maxWidth: "50vw"});
             gsap.to('.project', {duration: 0.3,scale: 0, stagger: 0.05, x: 0});
             gsap.to('.pt', {duration: 0.3,scale: 0});
             gsap.to('.info', {duration: 0.5, background: '#5684fe30', x: 0});
@@ -222,16 +212,14 @@ const Laptop = (props: any)=>{
             gsap.to('.nav', {color: 'white', duration: 0.3});
             gsap.to('.hide', {duration: 0.3, stagger: 0.1, color: '#fff'});
             gsap.to('.main', {background: '#28303e', duration: 0.3});
-            if(a) a?.setAttribute('href', 'https://olioindia.com/m4dqol');
         }
         if(page === 5){
-            gsap.to('.fourthpage', {duration: 0.6, y: -1000, scale: 0});
-            gsap.to('.is-play', {duration: 0.3, scale: 0});
-            gsap.to('.info', {duration: 0.5, width: "44vw", background: '#D1E4F2', x: 0});
+            gsap.to('.fourthpage', {duration: 0.6, maxWidth: 0});
+            gsap.to('.info', {duration: 0.5, width: "47vw", background: '#D1E4F2', x: 0});
             gsap.to('.icon', {duration: 0.2, display: 'block',color: "#000"});
             gsap.to('.hide', {duration: 0.3, delay: 0.2, stagger: 0.1, width: 'max-content',color: "#000",maxWidth: 300});
             gsap.to('.nav', {duration: 0.3, y:0, color: 'black' ,stagger: 0.1});
-            gsap.set('.main', {background: "#fff", duration: 0.4}).then(()=> gsap.set('.main', {background: "url('https://gcdnb.pbrd.co/images/2ageFnaXbQS4.png?o=1')"}));
+            gsap.set('.main', {background: "#fff", duration: 0.4}).then(()=> gsap.set('.main', {background: '#fff'}));
             gsap.to('.project', {duration: 0.3,scale: 1, stagger: 0.1});
             gsap.to('.pt', {duration: 0.3,scale: 1});
             gsap.to('.p1' , {duration: 0.5, x: '-36vw'});
@@ -269,10 +257,14 @@ export const Home = () => {
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
     const props = useSpring({ open: Number(open) });
+
+    useEffect(()=>{
+    }, [page])
+
     return (
-        <web.div className='flex items-center main' style={{ background: "url('https://gcdnb.pbrd.co/images/2ageFnaXbQS4.png?o=1')", height: '100vh'}}>
+        <web.div className='flex items-center main' style={{ height: '100vh'}}>
             <web.div className='firstpage'>
-                <web.p className='absolute flex' id='hello' style={{fontSize: '4.5vw',width: 0,whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#292929',fontFamily:  "'Poppins', sans-serif", fontWeight: 700, left: '5%', top: "30vh"}}>
+                <web.p className='absolute flex futura text-center' id='hello' style={{fontSize: '3vw',width: 0,whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff', fontWeight: 700, left: '5%', top: "26vh", background: '#121236'}}>
                     Hello, I'm 
                 </web.p>
                 <web.div className='absolute' id='content' style={{left: '5%', bottom: "30vh"}}>
@@ -280,138 +272,142 @@ export const Home = () => {
                     <web.p className='line'>development by studying and learning in a reputed university driven by technology. Possess a year of hands-on experience </web.p> 
                     <web.p className='line'>designing and developing applications for Web, Android, and IOS. Strong in development and integration with intuitive problem solving skills.</web.p>
                 </web.div>
-                <web.div className='absolute flex' id='name' style={{letterSpacing: 20, fontWeight: 900, left: '50%', marginLeft: "-21.2vw",}}>
-                    <web.p className='char'>j</web.p>
-                    <web.p className='char'>i</web.p>
-                    <web.p className='char'>t</web.p>
-                    <web.p className='char'>h</web.p>
-                    <web.p className='char'>e</web.p>
-                    <web.p className='char'>n</web.p>
-                    <web.p className='char'>d</web.p>
-                    <web.p className='char'>r</web.p>
-                    <web.p className='char'>a</web.p>
+                <web.div className='absolute flex' id='name' style={{letterSpacing: 40,fontWeight: 500, left: '50%', marginLeft: "-25vw",}}>
+                    <web.p className='char'>J</web.p>
+                    <web.p className='char'>{page==0?'I':'i'}</web.p>
+                    <web.p className='char'>{page==0?'T':'t'}</web.p>
+                    <web.p className='char'>{page==0?'H':'h'}</web.p>
+                    <web.p className='char'>{page==0?'E':'e'}</web.p>
+                    <web.p className='char'>{page==0?'N':'n'}</web.p>
+                    <web.p className='char'>{page==0?'D':'d'}</web.p>
+                    <web.p className='char'>{page==0?'R':'r'}</web.p>
+                    <web.p className='char'>{page==0?'A':'a'}</web.p>
                 </web.div>
             </web.div>
 
-            <web.div className='secondpage absolute' style={{top: '30%', left: '5%', transform: `translate(0px, 1000px)`, scale: 0}}>
-                <web.p className='px-2 py-1 popins text-center' style={{background: '#222A37', color: '#65FE92', width: 200, fontSize: '1vw'}}>
+            <web.div className='secondpage absolute' style={{top: '30%', left: '5%', width: 'max-content' ,maxWidth: 0, whiteSpace: 'nowrap',overflow: 'hidden'}}>
+                <web.p className='px-2 py-1 futura text-center' style={{background: '#222A37', color: '#65FE92', width: 200, fontSize: '1vw'}}>
                     ( 11 / 2021 - Present )
                 </web.p>
-                <web.p className='mt-3' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff',fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                <web.p className='mt-3 futura' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff', fontWeight: 700}}>
                         Coder Vs Coder 
                 </web.p>
-                <web.p className='mt-3 ml-2' style={{fontSize: '1vw', width: '45%',color: '#545D6E',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
-                    It is an online challenging game where a coder can challenge another coder using a matrix-based game.  Here, you will get documentation in that you'll get to know the methods to use to attack or move the player.
+                <web.p className='mt-3 ml-2 futura' style={{fontSize: '1vw',color: '#545D6E', fontWeight: 400}}>
+                    It is an online challenging game where a coder can challenge another coder using a matrix-based game. <br />
+                    Here, you will get documentation in that you'll get to know the methods to use to attack or move the player. <br />
                     Javascript language is allowed to be used for this game.
                 </web.p>
                 <web.div className='mt-4'>
-                    <web.p className='popins ml-2' style={{color: '#545D6E', fontSize: '1vw'}}>Click play button to open the project</web.p>
-                    <web.div className='flex -ml-5 mt-4 items-center text-white popins w-max px-6 py-2'>
-                        <web.p className='popins chip' style={{color: '#545D6E', fontSize: '1.1vw'}}>React</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>Tailwind CSS</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>TypeScript</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>Graph QL</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>Firebase</web.p>
+                    <web.p className='futura ml-2' style={{color: '#545D6E',textDecoration: 'underline' ,fontSize: '1vw'}}>Hover on LaptopScreen to see more details</web.p>
+                    <web.div className='flex -ml-5 mt-4 items-center text-white futura w-max px-6 py-2'>
+                        <web.p className='futura chip' style={{color: '#fff', fontSize: '1.1vw'}}>React</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Tailwind CSS</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>TypeScript</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Graph QL</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Firebase</web.p>
                     </web.div>
                 </web.div>
             </web.div>
 
-            <web.div className='thirdpage absolute w-min' style={{top: '30%', left: '5%', translateX: 2000, display: 'none'}}>
-                <web.p className='px-2 py-1 popins text-center' style={{background: '#222A37', color: '#65FE92', width: 200, fontSize: '1vw'}}>
+            <web.div className='thirdpage absolute w-min' style={{top: '30%', right: '3%', width: 'max-content' ,maxWidth: 0, whiteSpace: 'nowrap',overflow: 'hidden' }}>
+                <web.p className='px-2 py-1 futura text-center' style={{background: '#222A37', color: '#65FE92', width: 250, fontSize: '1vw'}}>
                     ( 01 / 2022 - 02 / 2022 )
                 </web.p>
-                <web.p className='mt-3' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff',fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                <web.p className='mt-3 futura' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff', fontWeight: 700}}>
                         Sarveksha 
                 </web.p>
-                <web.p className='mt-3 ml-2' style={{fontSize: '1vw', width: '125%',color: '#545D6E',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
-                    It is an online learning portal where students can see some courses and buy them. There is an admin panel that is used to control the content and the courses. It contains a login module where students and admins can log in and do their work.
+                <web.p className='mt-3 ml-2 futura' style={{fontSize: '1vw', width: '125%',color: '#545D6E', fontWeight: 400}}>
+                    It is an online learning portal where students can see some courses and buy them.
+                    There is an admin panel that is <br />used to control the content and the courses.
+                    It contains a login module where  <br />students and admins can log in and do their work.
                 </web.p>
                 <web.div className='mt-4'>
-                    <web.p className='popins ml-2' style={{color: '#545D6E', fontSize: '1vw'}}>Click play button to open the project</web.p>
-                    <web.div className='flex -ml-5 mt-4 items-center text-white popins w-max px-6 py-2'>
-                        <web.p className='popins chip' style={{color: '#545D6E', fontSize: '1.1vw'}}>Angular</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>SCSS</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>TypeScript</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>Graph QL</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>Firebase</web.p>
+                    <web.p className='futura ml-2' style={{color: '#545D6E',textDecoration: 'underline' ,fontSize: '1vw'}}>Hover on LaptopScreen to see more details</web.p>
+                    <web.div className='flex -ml-5 mt-4 items-center text-white futura w-max px-6 py-2'>
+                        <web.p className='futura chip' style={{color: '#fff', fontSize: '1.1vw'}}>Angular</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>SCSS</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>TypeScript</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Graph QL</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Firebase</web.p>
                     </web.div>
                 </web.div>
             </web.div>
 
-            <web.div className='fourthpage absolute' style={{top: '30%', left: '5%', translateY: -1000, scale: 0}}>
-                <web.p className='px-2 py-1 popins text-center' style={{background: '#222A37', color: '#65FE92', width: 200, fontSize: '1vw'}}>
+            <web.div className='fourthpage absolute' style={{top: '30%', left: '5%', width: 'max-content' ,maxWidth: 0, whiteSpace: 'nowrap',overflow: 'hidden'}}>
+                <web.p className='px-2 py-1 futura text-center' style={{background: '#222A37', color: '#65FE92', width: 250, fontSize: '1vw'}}>
                     ( 05 / 2021 - 08 / 2021 )
                 </web.p>
-                <web.p className='mt-3' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff',fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                <web.p className='mt-3 futura' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff', fontWeight: 700}}>
                         Contact Less Dining
                 </web.p>
-                <web.p className='mt-3 ml-2' style={{fontSize: '1vw', width: '45%',color: '#545D6E',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
-                    It is a digital menu for Hotels where users or customers will scan and order it from their phone through this web application. It has an admin panel to control the items and manage the orders. By this, we can create a different set of items for different hotels.
+                <web.p className='mt-3 ml-2 futura' style={{fontSize: '1vw', width: '45%',color: '#545D6E', fontWeight: 400}}>
+                    It is a digital menu for Hotels where users or customers will scan and order it from their phone through  <br />this web application.
+                    It has an admin panel to control the items and manage the orders.  <br />By this, we can create a different set of items for different hotels.
                 </web.p>
                 <web.div className='mt-4'>
-                    <web.p className='popins ml-2' style={{color: '#545D6E', fontSize: '1vw'}}>Click play button to open the project</web.p>
-                    <web.div className='flex -ml-5 mt-4 items-center text-white popins w-max px-6 py-2'>
-                        <web.p className='popins chip' style={{color: '#545D6E', fontSize: '1.1vw'}}>Angular</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.1vw'}}>GSAP</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.1vw'}}>Material UI</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>SCSS</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>TypeScript</web.p>
-                        <web.p className='popins chip ml-6' style={{color: '#545D6E', fontSize: '1.05vw'}}>Firebase</web.p>
+                <web.p className='futura ml-2' style={{color: '#545D6E',textDecoration: 'underline' ,fontSize: '1vw'}}>Hover on LaptopScreen to see more details</web.p>
+                    <web.div className='flex -ml-5 mt-4 items-center text-white futura w-max px-6 py-2'>
+                        <web.p className='futura chip' style={{color: '#fff', fontSize: '1.1vw'}}>Angular</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.1vw'}}>GSAP</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.1vw'}}>Material UI</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>SCSS</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>TypeScript</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Firebase</web.p>
                     </web.div>
                 </web.div>
             </web.div>
 
             <web.div className='sixthpage absolute flex' style={{top: '25%', left: '5%', translateY: 1000, scale: 0}}>
                 <web.div>
-                    <web.p className='popins ml-1' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
+                    <web.p className='futura ml-1' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
                         Education
                     </web.p>
                     <web.div className=''>
-                        <web.p className='mt-2' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' ,fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                        <web.p className='mt-2 futura' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' , fontWeight: 700}}>
                             10th class
                         </web.p>
-                        <web.p className='ml-1' style={{fontSize: '1vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
+                        <web.p className='ml-1 futura' style={{fontSize: '1vw', fontWeight: 400}}>
                             Bashyam public school
                         </web.p>
                         <web.div className="flex mt-1 justify-between" style={{width: '16vw'}}>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif",color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw',color: '#393939' ,fontWeight: 400}}>
                                 6/2014 - 06/2015,
                             </web.p>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif", color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw', color: '#393939' ,fontWeight: 400}}>
                                 9.0/10
                             </web.p>
                         </web.div>
                     </web.div>
 
                     <web.div className='mt-10'>
-                        <web.p className='mt-1 ml-1' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' ,fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                        <web.p className='mt-1 ml-1 futura' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' , fontWeight: 700}}>
                             Intermediate
                         </web.p>
-                        <web.p className='ml-1' style={{fontSize: '1vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
+                        <web.p className='ml-1 futura' style={{fontSize: '1vw', fontWeight: 400}}>
                             Narayana Junior College
                         </web.p>
                         <web.div className="flex mt-1 justify-between" style={{width: '16vw'}}>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif",color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw', color: '#393939' ,fontWeight: 400}}>
                                 07/2015 - 06/2017,
                             </web.p>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif", color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw', color: '#393939' ,fontWeight: 400}}>
                                 946/1000
                             </web.p>
                         </web.div>
                     </web.div>
 
                     <web.div className='mt-10'>
-                        <web.p className='mt-1 ml-1' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' ,fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                        <web.p className='mt-1 ml-1 futura' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' , fontWeight: 700}}>
                             B-Tech
                         </web.p>
-                        <web.p className='ml-1' style={{fontSize: '1vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
+                        <web.p className='ml-1 futura' style={{fontSize: '1vw', fontWeight: 400}}>
                             MVGR College of Engineering
                         </web.p>
                         <web.div className="flex mt-1 justify-between" style={{width: '16vw'}}>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif",color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw', color: '#393939' ,fontWeight: 400}}>
                                 06/2017 - 06/2021,
                             </web.p>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif", color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw', color: '#393939' ,fontWeight: 400}}>
                                 8.14/10
                             </web.p>
                         </web.div>
@@ -419,47 +415,47 @@ export const Home = () => {
                 </web.div>
 
                 <web.div className='' style={{marginLeft: '7vw'}}>
-                    <web.p className='popins ml-1' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
+                    <web.p className='futura ml-1' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
                         Work Experince
                     </web.p>
                     <web.div className=''>
-                        <web.p className='mt-2 ml-1' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' ,fontFamily:  "'Poppins', sans-serif", fontWeight: 700}}>
+                        <web.p className='mt-2 ml-1 futura' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' , fontWeight: 700}}>
                             Software Developer
                         </web.p>
-                        <web.p className='ml-1' style={{fontSize: '1vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
+                        <web.p className='ml-1 futura' style={{fontSize: '1vw', fontWeight: 400}}>
                             Runners Planet LTD. (Action X)
                         </web.p>
                         <web.div className="flex mt-1 justify-between" style={{width: '16vw'}}>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif",color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw',color: '#393939' ,fontWeight: 400}}>
                                 5/2021 - current
                             </web.p>
-                            <web.p className='ml-1' style={{fontSize: '0.8vw',fontFamily:  "'Poppins', sans-serif",color: '#393939' ,fontWeight: 400}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw',color: '#393939' ,fontWeight: 400}}>
                                 Singapore
                             </web.p>
                         </web.div>
                     </web.div>
 
-                    <web.p className='popins ml-1 mt-10' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
+                    <web.p className='futura ml-1 mt-10' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
                         Certifications
                     </web.p>
                     <web.div className=''>
-                        <web.p className='ml-1 mt-2' style={{fontSize: '0.9vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 600}}>
+                        <web.p className='ml-1 mt-2 futura' style={{fontSize: '0.9vw', fontWeight: 600}}>
                             java (NPTEL) (02/2019 - 07/2019)
                         </web.p>
-                        <web.p className='ml-1 mt-2' style={{fontSize: '0.9vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 600}}>
+                        <web.p className='ml-1 mt-2 futura' style={{fontSize: '0.9vw', fontWeight: 600}}>
                             C programming (CISCO) (08/2019 - 02/2020)
                         </web.p>
-                        <web.p className='ml-1 mt-2' style={{fontSize: '0.9vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 600}}>
+                        <web.p className='ml-1 mt-2 futura' style={{fontSize: '0.9vw', fontWeight: 600}}>
                             Python (NPTEL) (08/2019 - 02/2020)
                         </web.p>
                         
                     </web.div>
 
                     <web.div className='mt-10'>
-                        <web.p className='popins ml-1' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
+                        <web.p className='futura ml-1' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
                             Skills
                         </web.p>
-                        <web.p className='ml-1' style={{fontSize: '0.7vw',fontFamily:  "'Poppins', sans-serif", fontWeight: 400}}>
+                        <web.p className='ml-1 futura' style={{fontSize: '0.9vw', fontWeight: 400}}>
                             Hover on balls to see the skills
                         </web.p>
                     </web.div>
@@ -471,50 +467,50 @@ export const Home = () => {
                 style={{background: '#D1E4F2', padding: '1vw 0 1vw 3vw',borderRadius: "0 4px 4px 0", width: 0, transform: `translate(-100px, 0px)`, bottom: '2vw'}}>
                 <web.div className='flex items-center info-item'>
                     <ErrorIcon className='icon' style={{fontSize: "1.5vw", display: 'none', color: 'red', marginLeft: '1vw'}}></ErrorIcon>
-                    <web.p className='popins hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>Development Mode</web.p>
+                    <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>Development Mode</web.p>
                 </web.div>
                 <web.div className='flex items-center info-item'>
                     <EmailIcon className='icon' style={{fontSize: "1.5vw", display: 'none', marginLeft: '2vw'}}></EmailIcon>
-                    <web.p className='popins hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567@gmail.com</web.p>
+                    <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567@gmail.com</web.p>
                 </web.div>
                 <web.div className='flex items-center info-item'>
                     <LinkedInIcon className='icon' style={{fontSize: "1.5vw", display: 'none', marginLeft: '2vw'}}></LinkedInIcon>
-                    <web.p className='popins hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>sai-jithendhra</web.p>
+                    <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>sai-jithendhra</web.p>
                 </web.div>
                 <web.div className='flex items-center info-item'>
                     <GitHubIcon className='icon' style={{fontSize: "1.5vw", display: 'none' , marginLeft: '2vw'}}></GitHubIcon>
-                    <web.p className='popins hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567</web.p>
+                    <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567</web.p>
                 </web.div>
             </web.div>
 
             <web.div className='home absolute flex top-0 shadow-xl text-white CV' 
                 style={{background: '#715ffe', borderRadius: "0 0 4px 4px", left: "5%", padding: '2vw 1vw 1vw 1vw',transform: `translate(0px, -100px)`}}>
-                <web.p className='font-bold tracking-widest' style={{fontSize: '1.5vw'}}>CV</web.p>
+                <web.p className='font-bold tracking-widest' style={{fontSize: '1.5vw', textShadow: '2px 2px 2px #121236'}}>CV</web.p>
             </web.div>
 
             <web.div className="navbar top-0 absolute flex justify-around" style={{width: "50vw", right: '3vw', padding: '2vw 1vw 1vw 0'}}>
                 <web.div className="nav active">
-                    <web.p className="heading popins" style={{fontSize: '1vw'}}>Home</web.p>
+                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Home</web.p>
                     <web.div className='underline shadow'></web.div>
                 </web.div>
                 <web.div className="nav">
-                    <web.p className="heading popins" style={{fontSize: '1vw'}}>Projects</web.p>
+                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Projects</web.p>
                     <web.div className='underline shadow'></web.div>
                 </web.div>
                 <web.div className="nav">
-                    <web.p className="heading popins" style={{fontSize: '1vw'}}>Education</web.p>
+                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Education</web.p>
                     <web.div className='underline shadow'></web.div>
                 </web.div>
                 <web.div className="nav">
-                    <web.p className="heading popins" style={{fontSize: '1vw'}}>Work Experince</web.p>
+                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Work Experince</web.p>
                     <web.div className='underline shadow'></web.div>
                 </web.div>
                 <web.div className="nav">
-                    <web.p className="heading popins" style={{fontSize: '1vw'}}>Skills</web.p>
+                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Skills</web.p>
                     <web.div className='underline shadow'></web.div>
                 </web.div>
                 <web.div className="nav">
-                    <web.p className="heading popins" style={{fontSize: '1vw'}}>Certifcates & Interests</web.p>
+                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Certifcates & Interests</web.p>
                     <web.div className='underline shadow'></web.div>
                 </web.div>
             </web.div>
@@ -525,22 +521,22 @@ export const Home = () => {
             </web.div>
 
             <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 0], fov: 35 }}>
-                <ScrollControls pages={6} damping={4} distance={3}>
+                <ScrollControls pages={6} damping={4} distance={2}>
                     {/* <Shpere position={[0, 25, 100]} scale={0.7} open={open}></Shpere> */}
                     <Html as='div' center transform sprite>
-                        <p className='px-2 py-1 popins text-center absolute w-max pt' style={{fontSize: '2vw', transform: 'translate(-8.5vw, -18vw) scale(0)'}}>
+                        <p className='px-2 py-1 futura text-center absolute w-max pt' style={{fontSize: '2vw', transform: 'translate(-8.5vw, -18vw) scale(0)'}}>
                             <span style={{fontSize: '1vw',}}>2017 &gt; </span>  List of projects  <span style={{fontSize: '1vw',}}> &lt; 2020</span>
                         </p>
                         <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{zIndex: 1000 ,transform: 'translate(-36vw,-12vw) scale(0)'}}>
                             {/* <img src="./bingo.jpg" className='rounded-lg img' alt="" style={{objectFit: 'cover', }} /> */}
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://bingo-ce128.web.app/' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://bingo-ce128.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     Bingo
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 An Online Multiplayer game that is built within three days as a challenge for a company. This game is can be played by up to 16 players.
                             </p>
                         </div>
@@ -548,12 +544,12 @@ export const Home = () => {
                             {/* <img src="./aat.jpg" className='rounded-lg img' alt="" style={{objectFit: 'cover', }} /> */}
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://aat-accounting.web.app/' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://aat-accounting.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     AAT
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 A Business consultant website that is used by a person who give me this project to do it. They enlarge their business using this website as a medium
                             </p>
                         </div>
@@ -561,12 +557,12 @@ export const Home = () => {
                             {/* <img src="./pos.jpg" className='rounded-lg img' alt="" style={{objectFit: 'cover', }} /> */}
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://github.com/jithendhra567/ElectronTS-POS' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://github.com/jithendhra567/ElectronTS-POS' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     Electron POS
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 This is a Point of Sale for Hotels. It can be used on different platforms. It is a billing system for hotels. In future, this POS will be linked with Contact less dining
                             </p>
                         </div>
@@ -578,12 +574,12 @@ export const Home = () => {
                             </div> */}
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://gitlab.com/jithendhra567/housie-app' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://gitlab.com/jithendhra567/housie-app' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     Housie
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 An Online Multiplayer game that is built for android that can generate money using coins. This is an old game, we used to play when we are kids.
                             </p>
                         </div>
@@ -591,54 +587,54 @@ export const Home = () => {
                         <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{zIndex: 100 ,transform: 'translate(-36vw,-1vw) scale(0)'}}>
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://play.google.com/store/apps/details?id=com.jithendhra.jesushome' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://play.google.com/store/apps/details?id=com.jithendhra.jesushome' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     House of Prayer
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 My first Android app is all about the Bible which consists of all verses. and it has inbuilt notes and various features like highlighting, bookmarks, and daily quotes.
                             </p>
                         </div>
                         <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{zIndex: 100 ,transform: 'translate(-16vw,-1vw) scale(0)'}}>
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://github.com/jithendhra567/bounching-ball-unity' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://github.com/jithendhra567/bounching-ball-unity' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     Bouncing ball
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 A game that is developed using Unity 3d. There will be a ball that is trying to move forward and bounce off the walls and we need to avoid the obstacles.
                             </p>
                         </div>
                         <div className='project shadow-xl rounded-xl p3 px-4 py-4' style={{zIndex: 100 ,transform: 'translate(4vw,-1vw) scale(0)'}}>
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                <p onClick={()=>alert('no link provided')} className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <p onClick={()=>alert('no link provided')} className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     Youtube Video Downloader
                                 </p>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/ios-filled/344/info.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 An App that helps you download videos from Youtube and save them to your device in various formats. It is developed using youtube-dl
                             </p>
                         </div>
                         <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{zIndex: 100 ,transform: 'translate(24vw,-1vw) scale(0)'}}>
                             <div className="flex items-center">
                                 {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://runnersplanet.app/' target='_blank' className='px-2 py-1 popins link font-bold text-left' style={{fontSize: '1vw'}}>
+                                <a href='https://runnersplanet.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
                                     Runners planet
                                 </a>
                                 <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
                             </div>
-                            <p className='px-2 py-1 popins text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
+                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
                                 An App that helps people to run and compete with others virtually and capture virtual treasures by running. This is our company project in which we developed this app.
                             </p>
                         </div>
 
                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                        <a id='button' target="_blank" className="button is-play" style={{transform: 'scale(0)', display: 'none'}}>
+                        {/* <a id='button' target="_blank" className="button is-play" style={{transform: 'scale(0)', display: 'none'}}>
                             <div className="button-outer-circle has-scale-animation"></div>
                             <div className="button-outer-circle has-scale-animation has-delay-short"></div>
                             <div className="button-icon is-play">
@@ -647,7 +643,7 @@ export const Home = () => {
                                 <path className="path" d="M5,0 L30,15 L5,30z" fill="none" stroke="#252d38" stroke-width="1"></path>
                             </svg>
                             </div>
-                        </a>
+                        </a> */}
                     </Html>
                     <Laptop setOpen={(op:any)=>setOpen(op)} setPage={setPage} open={open} prop={props}></Laptop>
                     {page===6 && <a.ambientLight intensity={0.6} />}
