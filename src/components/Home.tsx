@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas, GroupProps, MeshProps, PointsProps, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { Environment, useGLTF, ContactShadows, Html, ScrollControls, useScroll, MeshReflectorMaterial, OrbitControls } from '@react-three/drei'
+import { Environment, useGLTF, ContactShadows, Html, ScrollControls, useScroll, MeshReflectorMaterial, OrbitControls, Scroll } from '@react-three/drei'
 import { useSpring } from '@react-spring/core'
 import { a, a as three } from '@react-spring/three'
 import { a as web } from '@react-spring/web'
@@ -84,6 +84,10 @@ const Model = ({ open, hinge, page, keyboard, ...props }: {open: any, hinge: any
                             {page===2 && <img onClick={()=>alert('clicked')} className='w-full h-full object-cover' src='./cvc.jpg' alt="" />}
                             {page===3 && <img className='w-full h-full object-cover' src='./s.jpg' alt="" />}
                             {page===4 && <img className='w-full h-full object-cover' src='./olio.jpg' alt="" />}
+                            <div className="overlay"></div>
+                            {page==2 && <a className='overlayimg' href='https://app-jithendhra.web.app/' target='_blank'>Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
+                            {page==3 && <a className='overlayimg' href='https://sarveksha.in/' target='_blank'>Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
+                            {page==4 && <a className='overlayimg' href='https://olio-ordering.web.app/' target='_blank'>Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
                         </div>
                     </Html>
                 </mesh> }
@@ -112,6 +116,29 @@ const Laptop = (props: any)=>{
     const close = 1.575;
     const open = -0.425;
     useFrame(() => {
+        // console.log(page!==props.tempPage, page, props.tempPage, props.fromNav)
+        if(page!==props.tempPage){
+            const de:any = data;
+            if(props.tempPage>page){
+                if(props.tempPage==1 && data.offset<0.1) de.scroll.current += 0.003;
+                else if(props.tempPage==2 && data.offset<0.2) de.scroll.current += 0.003;
+                else if(props.tempPage==3 && data.offset<0.4) de.scroll.current += 0.003;
+                else if(props.tempPage==4 && data.offset<0.6) de.scroll.current += 0.003;
+                else if(props.tempPage==5 && data.offset<0.8) de.scroll.current += 0.003;
+                else if(props.tempPage==6 && data.offset<0.9) de.scroll.current += 0.003;
+                else setPage(props.tempPage);
+            }
+            else {
+                if(props.tempPage==1 && data.offset>0.1) de.scroll.current -= 0.003;
+                else if(props.tempPage==2 && data.offset>0.15) de.scroll.current -= 0.003;
+                else if(props.tempPage==3 && data.offset>0.25) de.scroll.current -= 0.003;
+                else if(props.tempPage==4 && data.offset>0.35) de.scroll.current -= 0.003;
+                else if(props.tempPage==5 && data.offset>0.45) de.scroll.current -= 0.003;
+                else if(props.tempPage==6 && data.offset>0.55) de.scroll.current -= 0.003;
+                else setPage(props.tempPage);
+            }
+        }
+        else props.setFromNav(false);
         const pages = 6;
         const r = data.range(0/pages,1/pages);
         const r2 = data.range(1/pages,1/pages);
@@ -119,7 +146,6 @@ const Laptop = (props: any)=>{
         const r4 = data.range(3/pages,1/pages);
         const r5 = data.range(4/pages,1/pages);
         const r6 = data.range(5/pages,1/pages);
-
         if(r4<=0) setHingeVal(close-(close-open)*r);
         if(r > 0.3) setPage(1);
         else if(r < 0.3) setPage(0);
@@ -151,17 +177,38 @@ const Laptop = (props: any)=>{
             props.setOpen(true);
         }
         if(r5>=1) setHide(true);
-        if(r6>0.2) {
+        if(r6>0.5) {
             setPage(6);
-            if(r6>0.4) setBubble(true);
+            if(r6>0.5) setBubble(true);
         }
         else if(r5>0.9 && r6<0.4) setPage(5);
     });
 
     useEffect(()=>{
-        props.setPage(page);
+        props.setCurPage(page);
+        if(!props.fromNav) props.setPage(page);
+        const n1 = document.getElementById('n1');
+        const n2 = document.getElementById('n2');
+        const n3 = document.getElementById('n3');
+        const n4 = document.getElementById('n4');
+        const n5 = document.getElementById('n5');
+        const n6 = document.getElementById('n6');
+        if(n1 && n2 && n3 && n4 && n5 && n6){
+            n1.className = 'nav';
+            n2.className = 'nav';
+            n3.className = 'nav';
+            n4.className = 'nav';
+            n5.className = 'nav';
+            n6.className = 'nav';
+            if(page === 1) n1.className = 'nav active';
+            if(page === 2) n2.className = 'nav active';
+            if(page === 3) n3.className = 'nav active';
+            if(page === 4) n4.className = 'nav active';
+            if(page === 5) n5.className = 'nav active';
+            if(page === 6) n6.className = 'nav active';
+        }
         if(page === 0){
-            gsap.to('.char', {duration: 0.3,x: 0, y: -60,fontSize: "6vw", letterSpacing: 40, fontWeight: 500 ,stagger: {from: 'end', each: 0.05}});
+            gsap.to('.char', {duration: 0.3,x: 0, y: -60,fontSize: "6vw", letterSpacing: 32, fontWeight: 900 ,stagger: {from: 'end', each: 0.05}});
             gsap.to('#hello', {duration: 0.5, width: 0,paddingLeft: 0});
             gsap.to('.line', {duration: 0.5, width: 0, stagger: 0.05});
             gsap.to('.info', {duration: 0.5, width: 0, x: -100});
@@ -169,9 +216,19 @@ const Laptop = (props: any)=>{
             gsap.to('.hide', {duration: 0.3, stagger: 0.1, width: 0, maxWidth: 0});
             gsap.to('.CV', {duration: 0.3, y: -100});
             gsap.to('.nav', {duration: 0.3, y:-100, stagger: 0.1});
+            //bug
+            setTimeout(()=>{
+                console.log('in bug')
+                gsap.set('.secondpage', {maxWidth: 0})
+                gsap.set('.p1' , {duration: 0.5, x: '-86vw'});
+                gsap.set('.p2' , {duration: 0.5, x: '-86vw'});
+                gsap.set('.p3' , {duration: 0.5, x: '84vw'});
+                gsap.set('.p4' , {duration: 0.5, x: '84vw'});
+                gsap.set('.pt', {duration: 0.3, scale: 0});
+            },500)
         }
         if(page === 1){
-            gsap.to('.char', {duration: 0.1, height: 20,});
+            gsap.to('#arrowAnim', {duration: 0.3, bottom: -150});
             gsap.to('.char', {duration: 0.2,x: "-20vw", y: '-8vw',fontSize: "8vw", letterSpacing: 5,fontWeight: 900 , stagger: 0.05});
             gsap.to('#hello', {duration: 0.5, width: 300, paddingLeft: 10});
             gsap.to('.line', {duration: 0.5, width: 1000});
@@ -180,13 +237,23 @@ const Laptop = (props: any)=>{
             gsap.to('.hide', {duration: 0.3, delay: 0.2, stagger: 0.1, width: 'max-content',color: "#000",maxWidth: 300});
             gsap.to('.CV', {duration: 0.3, y: 0});
             gsap.to('.nav', {duration: 0.3, y:0, color: 'black' ,stagger: 0.1});
-
             gsap.to('.secondpage', {duration: 0.3, maxWidth: 0});
-            setTimeout(()=>gsap.to('.main', {background: "#fff", duration: 0.4}),200);
+            setTimeout(()=>gsap.to('.main', {background: "#fff", duration: 0.4}), 200);
+            //bug
+            setTimeout(()=>{
+                console.log('in bug')
+                gsap.set('.secondpage', {maxWidth: 0})
+                gsap.set('.p1' , {duration: 0.5, x: '-86vw'});
+                gsap.set('.p2' , {duration: 0.5, x: '-86vw'});
+                gsap.set('.p3' , {duration: 0.5, x: '84vw'});
+                gsap.set('.p4' , {duration: 0.5, x: '84vw'});
+                gsap.set('.pt', {duration: 0.3, scale: 0});
+            },500)
         }
         if(page === 2){
+            gsap.to('#arrowAnim', {duration: 0.3, bottom: -150});
             gsap.to('.char', {duration: 0.2, y: "-70vh",fontSize: "6vw",  letterSpacing: 20, stagger: {from: 'end', each: 0.05}});
-            setTimeout(()=>gsap.to('.secondpage', {duration: 0.6, maxWidth: '50vw'}), 200);
+            setTimeout(()=>gsap.to('.secondpage', {duration: 0.6, maxWidth: '50vw'}), 100);
             gsap.to('#hello', {duration: 0.5, width: 0, paddingLeft: 0});
             gsap.to('.line', {duration: 0.5, width: 0, stagger: 0.05});
             gsap.to('.info', {duration: 0.5, background: '#5684fe30', x: 0});
@@ -194,8 +261,15 @@ const Laptop = (props: any)=>{
             gsap.to('.hide', {duration: 0.3, stagger: 0.1, color: '#fff'});
             gsap.to('.nav', {color: 'white', duration: 0.3});
             gsap.to('.main', {background: '#28303e', duration: 0.3});
-
             gsap.to('.thirdpage', {duration: 0.6, maxWidth: 0});
+            setTimeout(()=>{
+                console.log('in bug')
+                gsap.set('.p1' , {duration: 0.5, x: '-86vw'});
+                gsap.set('.p2' , {duration: 0.5, x: '-86vw'});
+                gsap.set('.p3' , {duration: 0.5, x: '84vw'});
+                gsap.set('.p4' , {duration: 0.5, x: '84vw'});
+                gsap.set('.pt', {duration: 0.3, scale: 0});
+            },500)
         }
         if(page === 3){
             gsap.to('.secondpage', {duration: 0.6, maxWidth: 0});
@@ -222,10 +296,10 @@ const Laptop = (props: any)=>{
             gsap.set('.main', {background: "#fff", duration: 0.4}).then(()=> gsap.set('.main', {background: '#fff'}));
             gsap.to('.project', {duration: 0.3,scale: 1, stagger: 0.1});
             gsap.to('.pt', {duration: 0.3,scale: 1});
-            gsap.to('.p1' , {duration: 0.5, x: '-36vw'});
-            gsap.to('.p2' , {duration: 0.5, x: '-16vw'});
-            gsap.to('.p3' , {duration: 0.5, x: '4vw'});
-            gsap.to('.p4' , {duration: 0.5, x: '24vw'});
+            gsap.to('.p1' , {duration: 0.5, x: '-35vw'});
+            gsap.to('.p2' , {duration: 0.5, x: '-13vw'});
+            gsap.to('.p3' , {duration: 0.5, x: '13vw'});
+            gsap.to('.p4' , {duration: 0.5, x: '35vw'});
             gsap.to('.sixthpage', {duration: 0.6, y: 1000, scale: 0});
         }
         if(page === 6){
@@ -255,11 +329,41 @@ const Laptop = (props: any)=>{
 
 export const Home = () => {
     const [open, setOpen] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(0); //setting page
+    const [curPage, setCurPage] = useState(0); // getting page
+    const [fromNav, setFromNav] = useState(false); // from nav
     const props = useSpring({ open: Number(open) });
 
     useEffect(()=>{
-    }, [page])
+        setTimeout(()=>{
+            gsap.to('#arrowAnim', {duration: 0.3, bottom: 10})
+        },2000)
+    },[])
+
+    const nav = (id: number) => {
+        setPage(id);
+        setFromNav(true);
+        const n1 = document.getElementById('n1');
+        const n2 = document.getElementById('n2');
+        const n3 = document.getElementById('n3');
+        const n4 = document.getElementById('n4');
+        const n5 = document.getElementById('n5');
+        const n6 = document.getElementById('n6');
+        if(n1 && n2 && n3 && n4 && n5 && n6){
+            n1.className = 'nav';
+            n2.className = 'nav';
+            n3.className = 'nav';
+            n4.className = 'nav';
+            n5.className = 'nav';
+            n6.className = 'nav';
+            if(id === 1) n1.className = 'nav active';
+            if(id === 2) n2.className = 'nav active';
+            if(id === 3) n3.className = 'nav active';
+            if(id === 4) n4.className = 'nav active';
+            if(id === 5) n5.className = 'nav active';
+            if(id === 6) n6.className = 'nav active';
+        }
+    }
 
     return (
         <web.div className='flex items-center main' style={{ height: '100vh'}}>
@@ -273,15 +377,15 @@ export const Home = () => {
                     <web.p className='line'>designing and developing applications for Web, Android, and IOS. Strong in development and integration with intuitive problem solving skills.</web.p>
                 </web.div>
                 <web.div className='absolute flex' id='name' style={{letterSpacing: 40,fontWeight: 500, left: '50%', marginLeft: "-25vw",}}>
-                    <web.p className='char'>J</web.p>
-                    <web.p className='char'>{page==0?'I':'i'}</web.p>
-                    <web.p className='char'>{page==0?'T':'t'}</web.p>
-                    <web.p className='char'>{page==0?'H':'h'}</web.p>
-                    <web.p className='char'>{page==0?'E':'e'}</web.p>
-                    <web.p className='char'>{page==0?'N':'n'}</web.p>
-                    <web.p className='char'>{page==0?'D':'d'}</web.p>
-                    <web.p className='char'>{page==0?'R':'r'}</web.p>
-                    <web.p className='char'>{page==0?'A':'a'}</web.p>
+                    <web.p className='char'>{curPage==0?'J':'J'}</web.p>
+                    <web.p className='char'>{curPage==0?'I':'i'}</web.p>
+                    <web.p className='char'>{curPage==0?'T':'t'}</web.p>
+                    <web.p className='char'>{curPage==0?'H':'h'}</web.p>
+                    <web.p className='char'>{curPage==0?'E':'e'}</web.p>
+                    <web.p className='char'>{curPage==0?'N':'n'}</web.p>
+                    <web.p className='char'>{curPage==0?'D':'d'}</web.p>
+                    <web.p className='char'>{curPage==0?'R':'r'}</web.p>
+                    <web.p className='char'>{curPage==0?'A':'a'}</web.p>
                 </web.div>
             </web.div>
 
@@ -294,7 +398,7 @@ export const Home = () => {
                 </web.p>
                 <web.p className='mt-3 ml-2 futura' style={{fontSize: '1vw',color: '#545D6E', fontWeight: 400}}>
                     It is an online challenging game where a coder can challenge another coder using a matrix-based game. <br />
-                    Here, you will get documentation in that you'll get to know the methods to use to attack or move the player. <br />
+                    Here,  you'll get to know the methods to use to attack or move the player on the grid. <br />
                     Javascript language is allowed to be used for this game.
                 </web.p>
                 <web.div className='mt-4'>
@@ -463,6 +567,148 @@ export const Home = () => {
                 </web.div>
             </web.div>
 
+            <web.div className="absolute" id='cursor' style={{zIndex: 1624447200, transitionDuration: '0.7s'}}>
+                <web.div id='cursor-overlay' className="cursor-overlay"></web.div>
+                <web.p id='cursor-inner' className="cursor-inner truncate"></web.p>
+            </web.div>
+
+            <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 0], fov: 35 }}>
+                <ScrollControls pages={6} damping={4} distance={1}>
+                    <Laptop setOpen={(op:any)=>setOpen(op)} setPage={setPage} setCurPage={setCurPage} setFromNav={setFromNav} fromNav={fromNav} open={open} prop={props} tempPage={page}></Laptop>
+                    {page===6 && <a.ambientLight intensity={0.6} />}
+                    {page===6 && <a.pointLight position-z={-15} intensity={1} color="#F8C069" />}
+                </ScrollControls>
+                {/* @ts-ignore */}
+                <three.pointLight position={[10, 10, 10]} intensity={1.5} color={'#f0f0f0'} />
+                {/* @ts-ignore */}
+                <ContactShadows rotation-x={Math.PI / 2} position={[0, -4.5, 0]} opacity={0.6} width={20} height={20} blur={2} far={4.5} />
+            </Canvas>
+            <div id='topbar' className="flex justify-between absolute topbar top-0" style={{width: '100vw'}}>
+                <div className='home flex shadow-xl text-white CV' 
+                    style={{background: '#715ffe', borderRadius: "0 0 4px 4px", left: "5%", padding: '2vw 1vw 1vw 1vw', marginLeft: '5vw'}}>
+                    <p className='font-bold tracking-widest' style={{fontSize: '1.5vw', textShadow: '2px 2px 2px #121236'}}>CV</p>
+                </div>
+                <div className="navbar flex justify-between" style={{width: "50vw", padding: '1.5vw 3vw 1vw 0'}}>
+                    <div className="nav active" id="n1" style={{transform: 'translate(0,-100px)'}} onClick={()=>nav(1)}>
+                        <p className="heading futura" style={{fontSize: '1vw'}}>Home</p>
+                        <div className='underline shadow'></div>
+                    </div>
+                    <div className="nav"  id="n2" style={{transform: 'translate(0,-100px)'}} onClick={()=>nav(2)}>
+                        <p className="heading futura" style={{fontSize: '1vw'}}>Project 1</p>
+                        <div className='underline shadow'></div>
+                    </div>
+                    <div className="nav"  id="n3" style={{transform: 'translate(0,-100px)'}} onClick={()=>nav(3)}>
+                        <p className="heading futura" style={{fontSize: '1vw'}}>Project 2</p>
+                        <div className='underline shadow'></div>
+                    </div>
+                    <div className="nav"  id="n4" style={{transform: 'translate(0,-100px)'}} onClick={()=>nav(4)}>
+                        <p className="heading futura" style={{fontSize: '1vw'}}>Project 3</p>
+                        <div className='underline shadow'></div>
+                    </div>
+                    <div className="nav" id="n5" style={{transform: 'translate(0,-100px)'}} onClick={()=>nav(5)}>
+                        <p className="heading futura" style={{fontSize: '1vw'}}>All Projects</p>
+                        <div className='underline shadow'></div>
+                    </div>
+                    <div className="nav" id="n6" style={{transform: 'translate(0,-100px)'}} onClick={()=>nav(6)} >
+                        <p className="heading futura" style={{fontSize: '1vw'}}>Experience & Skills</p>
+                        <div className='underline shadow'></div>
+                    </div>
+                </div>
+            </div>
+            <web.div className="absolute flex justify-center" style={{top: '7vw', width: '100vw'}}>
+                <p className='futura text-center pt' style={{fontSize: '2vw', transform: ' scale(0)'}}>
+                    <span style={{fontSize: '1vw',}}>2017 &lt; </span>  List of projects  <span style={{fontSize: '1vw',}}> &lt; 2022</span>
+                </p>
+                <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{transform: 'translate(-86vw,5vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://bingo-ce128.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            Bingo
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        An Online Multiplayer game that is built within three days as a challenge for a company. This game is can be played by up to 16 players.
+                    </p>
+                </div>
+                <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{transform: 'translate(-86vw,5vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://aat-accounting.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            AAT
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        A Business consultant website that is used by a person who give me this project to do it. They enlarge their business using this website as a medium
+                    </p>
+                </div>
+                <div className='project shadow-xl rounded-xl p3 px-4 py-4' style={{transform: 'translate(86vw,5vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://github.com/jithendhra567/ElectronTS-POS' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            Electron POS
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        This is a Point of Sale for Hotels. It can be used on different platforms. It is a billing system for hotels. In future, this POS will be linked with Contact less dining
+                    </p>
+                </div>
+                <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{transform: 'translate(86vw,5vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://gitlab.com/jithendhra567/housie-app' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            Housie
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        An Online Multiplayer game that is built for android that can generate money using coins. This is an old game, we used to play when we are kids.
+                    </p>
+                </div>
+
+                <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{transform: 'translate(-86vw,16vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://play.google.com/store/apps/details?id=com.jithendhra.jesushome' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            House of Prayer
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        My first Android app is all about the Bible which consists of all verses. and it has inbuilt notes and various features like highlighting, bookmarks, and daily quotes.
+                    </p>
+                </div>
+                <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{transform: 'translate(-86vw,16vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://github.com/jithendhra567/bounching-ball-unity' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            Bouncing ball
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        A game that is developed using Unity 3d. There will be a ball that is trying to move forward and bounce off the walls and we need to avoid the obstacles.
+                    </p>
+                </div>
+                <div className='project shadow-xl rounded-xl p3 px-4 py-4' style={{transform: 'translate(86vw,16vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <p onClick={()=>alert('no link provided')} className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            Youtube Downloader
+                        </p>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/ios-filled/344/info.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        An App that helps you download videos from Youtube and save them to your device in various formats. It is developed using youtube-dl
+                    </p>
+                </div>
+                <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{transform: 'translate(86vw,16vw) scale(0)'}}>
+                    <div className="flex items-center">
+                        <a href='https://runnersplanet.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                            Runners planet
+                        </a>
+                        <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
+                    </div>
+                    <p className='px-2 py-1 futura text-left' style={{fontSize: '0.7vw', color: "#3b3b3b"}}>
+                        An App that helps people to run and compete with others virtually and capture virtual treasures by running. This is our company project in which we developed this app.
+                    </p>
+                </div>
+            </web.div>
             <web.div className='bottombar absolute flex shadow-xl info' 
                 style={{background: '#D1E4F2', padding: '1vw 0 1vw 3vw',borderRadius: "0 4px 4px 0", width: 0, transform: `translate(-100px, 0px)`, bottom: '2vw'}}>
                 <web.div className='flex items-center info-item'>
@@ -482,178 +728,20 @@ export const Home = () => {
                     <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567</web.p>
                 </web.div>
             </web.div>
-
-            <web.div className='home absolute flex top-0 shadow-xl text-white CV' 
-                style={{background: '#715ffe', borderRadius: "0 0 4px 4px", left: "5%", padding: '2vw 1vw 1vw 1vw',transform: `translate(0px, -100px)`}}>
-                <web.p className='font-bold tracking-widest' style={{fontSize: '1.5vw', textShadow: '2px 2px 2px #121236'}}>CV</web.p>
-            </web.div>
-
-            <web.div className="navbar top-0 absolute flex justify-around" style={{width: "50vw", right: '3vw', padding: '2vw 1vw 1vw 0'}}>
-                <web.div className="nav active">
-                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Home</web.p>
-                    <web.div className='underline shadow'></web.div>
-                </web.div>
-                <web.div className="nav">
-                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Projects</web.p>
-                    <web.div className='underline shadow'></web.div>
-                </web.div>
-                <web.div className="nav">
-                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Education</web.p>
-                    <web.div className='underline shadow'></web.div>
-                </web.div>
-                <web.div className="nav">
-                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Work Experince</web.p>
-                    <web.div className='underline shadow'></web.div>
-                </web.div>
-                <web.div className="nav">
-                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Skills</web.p>
-                    <web.div className='underline shadow'></web.div>
-                </web.div>
-                <web.div className="nav">
-                    <web.p className="heading futura" style={{fontSize: '1vw'}}>Certifcates & Interests</web.p>
-                    <web.div className='underline shadow'></web.div>
-                </web.div>
-            </web.div>
-
-            <web.div className="absolute" id='cursor' style={{zIndex: 1624447200, transitionDuration: '0.7s'}}>
-                <web.div id='cursor-overlay' className="cursor-overlay"></web.div>
-                <web.p id='cursor-inner' className="cursor-inner truncate"></web.p>
-            </web.div>
-
-            <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 0], fov: 35 }}>
-                <ScrollControls pages={6} damping={4} distance={2}>
-                    {/* <Shpere position={[0, 25, 100]} scale={0.7} open={open}></Shpere> */}
-                    <Html as='div' center transform sprite>
-                        <p className='px-2 py-1 futura text-center absolute w-max pt' style={{fontSize: '2vw', transform: 'translate(-8.5vw, -18vw) scale(0)'}}>
-                            <span style={{fontSize: '1vw',}}>2017 &gt; </span>  List of projects  <span style={{fontSize: '1vw',}}> &lt; 2020</span>
-                        </p>
-                        <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{zIndex: 1000 ,transform: 'translate(-36vw,-12vw) scale(0)'}}>
-                            {/* <img src="./bingo.jpg" className='rounded-lg img' alt="" style={{objectFit: 'cover', }} /> */}
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://bingo-ce128.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    Bingo
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                An Online Multiplayer game that is built within three days as a challenge for a company. This game is can be played by up to 16 players.
-                            </p>
-                        </div>
-                        <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{zIndex: 1000 ,transform: 'translate(-16vw,-12vw) scale(0)'}}>
-                            {/* <img src="./aat.jpg" className='rounded-lg img' alt="" style={{objectFit: 'cover', }} /> */}
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://aat-accounting.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    AAT
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                A Business consultant website that is used by a person who give me this project to do it. They enlarge their business using this website as a medium
-                            </p>
-                        </div>
-                        <div className='project shadow-xl rounded-xl p3 px-4 py-4' style={{zIndex: 1000 ,transform: 'translate(4vw,-12vw) scale(0)'}}>
-                            {/* <img src="./pos.jpg" className='rounded-lg img' alt="" style={{objectFit: 'cover', }} /> */}
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://github.com/jithendhra567/ElectronTS-POS' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    Electron POS
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                This is a Point of Sale for Hotels. It can be used on different platforms. It is a billing system for hotels. In future, this POS will be linked with Contact less dining
-                            </p>
-                        </div>
-                        <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{zIndex: 1000 ,transform: 'translate(24vw,-12vw) scale(0)'}}>
-                            {/* <div className="flex justify-around img2">
-                                <img src="./housie.jpg" className='img' alt="" style={{objectFit: 'cover', height: '8.5vw', borderRadius: '10px 0 0 10px'}} />
-                                <img src="./housie2.jpg" className='img' alt="" style={{objectFit: 'cover', height: '8.5vw'}} />
-                                <img src="./housie3.jpg" className='img' alt="" style={{objectFit: 'cover', height: '8.5vw', borderRadius: '0px 10px 10px 0px'}} />
-                            </div> */}
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://gitlab.com/jithendhra567/housie-app' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    Housie
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                An Online Multiplayer game that is built for android that can generate money using coins. This is an old game, we used to play when we are kids.
-                            </p>
-                        </div>
-
-                        <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{zIndex: 100 ,transform: 'translate(-36vw,-1vw) scale(0)'}}>
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://play.google.com/store/apps/details?id=com.jithendhra.jesushome' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    House of Prayer
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                My first Android app is all about the Bible which consists of all verses. and it has inbuilt notes and various features like highlighting, bookmarks, and daily quotes.
-                            </p>
-                        </div>
-                        <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{zIndex: 100 ,transform: 'translate(-16vw,-1vw) scale(0)'}}>
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://github.com/jithendhra567/bounching-ball-unity' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    Bouncing ball
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                A game that is developed using Unity 3d. There will be a ball that is trying to move forward and bounce off the walls and we need to avoid the obstacles.
-                            </p>
-                        </div>
-                        <div className='project shadow-xl rounded-xl p3 px-4 py-4' style={{zIndex: 100 ,transform: 'translate(4vw,-1vw) scale(0)'}}>
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                <p onClick={()=>alert('no link provided')} className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    Youtube Video Downloader
-                                </p>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/ios-filled/344/info.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                An App that helps you download videos from Youtube and save them to your device in various formats. It is developed using youtube-dl
-                            </p>
-                        </div>
-                        <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{zIndex: 100 ,transform: 'translate(24vw,-1vw) scale(0)'}}>
-                            <div className="flex items-center">
-                                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                                <a href='https://runnersplanet.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
-                                    Runners planet
-                                </a>
-                                <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
-                            </div>
-                            <p className='px-2 py-1 futura text-left' style={{fontSize: '0.6vw', color: "#3b3b3b"}}>
-                                An App that helps people to run and compete with others virtually and capture virtual treasures by running. This is our company project in which we developed this app.
-                            </p>
-                        </div>
-
-                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                        {/* <a id='button' target="_blank" className="button is-play" style={{transform: 'scale(0)', display: 'none'}}>
-                            <div className="button-outer-circle has-scale-animation"></div>
-                            <div className="button-outer-circle has-scale-animation has-delay-short"></div>
-                            <div className="button-icon is-play">
-                            <svg height="100%" width="100%" fill="#715ffe">
-                                <polygon className="triangle" points="5,0 30,15 5,30" viewBox="0 0 30 15"></polygon>
-                                <path className="path" d="M5,0 L30,15 L5,30z" fill="none" stroke="#252d38" stroke-width="1"></path>
-                            </svg>
-                            </div>
-                        </a> */}
-                    </Html>
-                    <Laptop setOpen={(op:any)=>setOpen(op)} setPage={setPage} open={open} prop={props}></Laptop>
-                    {page===6 && <a.ambientLight intensity={0.6} />}
-                    {page===6 && <a.pointLight position-z={-15} intensity={1} color="#F8C069" />}
-                </ScrollControls>
-                {/* @ts-ignore */}
-                <three.pointLight position={[10, 10, 10]} intensity={1.5} color={'#f0f0f0'} />
-                {/* @ts-ignore */}
-                <ContactShadows rotation-x={Math.PI / 2} position={[0, -4.5, 0]} opacity={0.6} width={20} height={20} blur={2} far={4.5} />
-            </Canvas>
+            <div id="arrowAnim">
+                <div className="arrowSliding">
+                    <div className="arrow"></div>
+                </div>
+                <div className="arrowSliding delay1">
+                    <div className="arrow"></div>
+                </div>
+                <div className="arrowSliding delay2">
+                    <div className="arrow"></div>
+                </div>
+                <div className="arrowSliding delay3">
+                    <div className="arrow"></div>
+                </div>
+            </div>
         </web.div>
     );
 }

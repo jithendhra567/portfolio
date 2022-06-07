@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "app-jithendhra"
+  },
+  "targets": {
+    "app-jithendhra": {
+      "hosting": {
+        "app-jithendhra": [
+          "jithendra"
+        ]
+      }
+    }
+  }
+}
