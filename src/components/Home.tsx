@@ -6,6 +6,7 @@ import { useSpring } from '@react-spring/core'
 import { a, a as three } from '@react-spring/three'
 import { a as web } from '@react-spring/web'
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import Info from '@mui/icons-material/Info';
 import ErrorIcon from '@mui/icons-material/Error';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -81,13 +82,13 @@ const Model = ({ open, hinge, page, keyboard, ...props }: {open: any, hinge: any
                 {page>=2 && page<5 && <mesh geometry={nodes['Cube008_2'].geometry}>
                     <Html className="content" rotation-x={-Math.PI / 2} position={[0, 0.05, -0.09]} transform occlude>
                         <div className="wrapper loading" style={{width: 333, height: 215}}>
-                            {page===2 && <img onClick={()=>alert('clicked')} className='w-full h-full object-cover' src='./cvc.jpg' alt="" />}
+                            {page===2 && <img className='w-full h-full object-cover' src='./happypay.png' alt="" />}
                             {page===3 && <img className='w-full h-full object-cover' src='./s.jpg' alt="" />}
                             {page===4 && <img className='w-full h-full object-cover' src='./olio.jpg' alt="" />}
                             <div className="overlay"></div>
-                            {page==2 && <a className='overlayimg' href='https://app-jithendhra.web.app/' target='_blank'>Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
-                            {page==3 && <a className='overlayimg' href='https://sarveksha.in/' target='_blank'>Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
-                            {page==4 && <a className='overlayimg' href='https://olio-ordering.web.app/' target='_blank'>Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
+                            {page===2 && <a className='overlayimg' href='https://www.happypay.live/' target='_blank' rel="noreferrer">Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
+                            {page===3 && <a className='overlayimg' href='https://sarveksha.in/' target='_blank' rel="noreferrer">Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
+                            {page===4 && <a className='overlayimg' href='https://olio-ordering.web.app/' target='_blank' rel="noreferrer">Open <img src="https://img.icons8.com/fluency-systems-regular/344/external-link-squared.png" alt="" /></a>}
                         </div>
                     </Html>
                 </mesh> }
@@ -334,11 +335,19 @@ export const Home = () => {
     const [fromNav, setFromNav] = useState(false); // from nav
     const props = useSpring({ open: Number(open) });
 
-    useEffect(()=>{
+    useEffect(() => {
         setTimeout(()=>{
             gsap.to('#arrowAnim', {duration: 0.3, bottom: 10})
         },2000)
-    },[])
+    }, [])
+
+    useEffect(()=>{
+        if(curPage === 0){
+            gsap.to('#arrowAnim', { display: 'block' })
+        } else {
+            gsap.to('#arrowAnim', { display: 'none' })
+        }
+    },[curPage])
 
     const nav = (id: number) => {
         setPage(id);
@@ -377,38 +386,38 @@ export const Home = () => {
                     <web.p className='line'>designing and developing applications for Web, Android, and IOS. Strong in development and integration with intuitive problem solving skills.</web.p>
                 </web.div>
                 <web.div className='absolute flex' id='name' style={{letterSpacing: 40,fontWeight: 500, left: '50%', marginLeft: "-25vw",}}>
-                    <web.p className='char'>{curPage==0?'J':'J'}</web.p>
-                    <web.p className='char'>{curPage==0?'I':'i'}</web.p>
-                    <web.p className='char'>{curPage==0?'T':'t'}</web.p>
-                    <web.p className='char'>{curPage==0?'H':'h'}</web.p>
-                    <web.p className='char'>{curPage==0?'E':'e'}</web.p>
-                    <web.p className='char'>{curPage==0?'N':'n'}</web.p>
-                    <web.p className='char'>{curPage==0?'D':'d'}</web.p>
-                    <web.p className='char'>{curPage==0?'R':'r'}</web.p>
-                    <web.p className='char'>{curPage==0?'A':'a'}</web.p>
+                    <web.p className='char'>{curPage===0?'J':'J'}</web.p>
+                    <web.p className='char'>{curPage===0?'I':'i'}</web.p>
+                    <web.p className='char'>{curPage===0?'T':'t'}</web.p>
+                    <web.p className='char'>{curPage===0?'H':'h'}</web.p>
+                    <web.p className='char'>{curPage===0?'E':'e'}</web.p>
+                    <web.p className='char'>{curPage===0?'N':'n'}</web.p>
+                    <web.p className='char'>{curPage===0?'D':'d'}</web.p>
+                    <web.p className='char'>{curPage===0?'R':'r'}</web.p>
+                    <web.p className='char'>{curPage===0?'A':'a'}</web.p>
                 </web.div>
             </web.div>
 
             <web.div className='secondpage absolute' style={{top: '30%', left: '5%', width: 'max-content' ,maxWidth: 0, whiteSpace: 'nowrap',overflow: 'hidden'}}>
                 <web.p className='px-2 py-1 futura text-center' style={{background: '#222A37', color: '#65FE92', width: 200, fontSize: '1vw'}}>
-                    ( 11 / 2021 - Present )
+                    ( 02 / 2022 - 09 / 2022 )
                 </web.p>
                 <web.p className='mt-3 futura' style={{fontSize: '4vw', whiteSpace: 'nowrap',overflow: 'hidden' ,color: '#fff', fontWeight: 700}}>
-                        Coder Vs Coder 
+                        Happy Pay
                 </web.p>
                 <web.p className='mt-3 ml-2 futura' style={{fontSize: '1vw',color: '#545D6E', fontWeight: 400}}>
-                    It is an online challenging game where a coder can challenge another coder using a matrix-based game. <br />
-                    Here,  you'll get to know the methods to use to attack or move the player on the grid. <br />
-                    Javascript language is allowed to be used for this game.
+                    It's a Fin-tech application that can do all kinds of recharge and bill payments—and also added all government services.
+                    <br />
+                    A referral System is also available. Every transaction will give some amount of cashback <br />
                 </web.p>
                 <web.div className='mt-4'>
                     <web.p className='futura ml-2' style={{color: '#545D6E',textDecoration: 'underline' ,fontSize: '1vw'}}>Hover on LaptopScreen to see more details</web.p>
                     <web.div className='flex -ml-5 mt-4 items-center text-white futura w-max px-6 py-2'>
-                        <web.p className='futura chip' style={{color: '#fff', fontSize: '1.1vw'}}>React</web.p>
-                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Tailwind CSS</web.p>
+                        <web.p className='futura chip' style={{color: '#fff', fontSize: '1.1vw'}}>React Native</web.p>
                         <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>TypeScript</web.p>
-                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Graph QL</web.p>
-                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Firebase</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Express</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>Node JS</web.p>
+                        <web.p className='futura chip ml-6' style={{color: '#fff', fontSize: '1.05vw'}}>MongoDB</web.p>
                     </web.div>
                 </web.div>
             </web.div>
@@ -524,6 +533,22 @@ export const Home = () => {
                     </web.p>
                     <web.div className=''>
                         <web.p className='mt-2 ml-1 futura' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' , fontWeight: 700}}>
+                            Software Engineer
+                        </web.p>
+                        <web.p className='ml-1 futura' style={{fontSize: '1vw', fontWeight: 400}}>
+                            Streak
+                        </web.p>
+                        <web.div className="flex mt-1 justify-between" style={{width: '16vw'}}>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw',color: '#393939' ,fontWeight: 400}}>
+                                08/2022 - current
+                            </web.p>
+                            <web.p className='ml-1 futura' style={{fontSize: '0.8vw',color: '#393939' ,fontWeight: 400}}>
+                                Bengaluru
+                            </web.p>
+                        </web.div>
+                    </web.div>
+                    <web.div className=''>
+                        <web.p className='mt-2 ml-1 futura' style={{fontSize: '1.3vw', whiteSpace: 'nowrap',overflow: 'hidden' , fontWeight: 700}}>
                             Software Developer
                         </web.p>
                         <web.p className='ml-1 futura' style={{fontSize: '1vw', fontWeight: 400}}>
@@ -538,6 +563,7 @@ export const Home = () => {
                             </web.p>
                         </web.div>
                     </web.div>
+                    
 
                     <web.p className='futura ml-1 mt-10' style={{color: '#ff7243', fontWeight: 800,fontSize: '1vw'}}>
                         Certifications
@@ -621,7 +647,7 @@ export const Home = () => {
                 </p>
                 <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{transform: 'translate(-86vw,5vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://bingo-ce128.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://bingo-ce128.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             Bingo
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -632,7 +658,7 @@ export const Home = () => {
                 </div>
                 <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{transform: 'translate(-86vw,5vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://aat-accounting.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://aat-accounting.web.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             AAT
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -643,7 +669,7 @@ export const Home = () => {
                 </div>
                 <div className='project shadow-xl rounded-xl p3 px-4 py-4' style={{transform: 'translate(86vw,5vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://github.com/jithendhra567/ElectronTS-POS' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://github.com/jithendhra567/ElectronTS-POS' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             Electron POS
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -654,7 +680,7 @@ export const Home = () => {
                 </div>
                 <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{transform: 'translate(86vw,5vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://gitlab.com/jithendhra567/housie-app' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://gitlab.com/jithendhra567/housie-app' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             Housie
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -666,7 +692,7 @@ export const Home = () => {
 
                 <div className='project absolute shadow-xl p1 rounded-xl px-4 py-4' style={{transform: 'translate(-86vw,16vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://play.google.com/store/apps/details?id=com.jithendhra.jesushome' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://play.google.com/store/apps/details?id=com.jithendhra.jesushome' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             House of Prayer
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -677,7 +703,7 @@ export const Home = () => {
                 </div>
                 <div className='project shadow-xl rounded-xl p2 px-4 py-4' style={{transform: 'translate(-86vw,16vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://github.com/jithendhra567/bounching-ball-unity' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://github.com/jithendhra567/bounching-ball-unity' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             Bouncing ball
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -699,7 +725,7 @@ export const Home = () => {
                 </div>
                 <div className='project shadow-xl rounded-xl p4 px-4 py-4' style={{transform: 'translate(86vw,16vw) scale(0)'}}>
                     <div className="flex items-center">
-                        <a href='https://runnersplanet.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}}>
+                        <a href='https://runnersplanet.app/' target='_blank' className='px-2 py-1 futura link font-bold text-left' style={{fontSize: '1vw'}} rel="noreferrer">
                             Runners planet
                         </a>
                         <img className='-ml-4' style={{width: '2.5vw', transform: 'scale(0.45)'}} src="https://img.icons8.com/pastel-glyph/344/external-link.png" alt="" />
@@ -711,21 +737,25 @@ export const Home = () => {
             </web.div>
             <web.div className='bottombar absolute flex shadow-xl info' 
                 style={{background: '#D1E4F2', padding: '1vw 0 1vw 3vw',borderRadius: "0 4px 4px 0", width: 0, transform: `translate(-100px, 0px)`, bottom: '2vw'}}>
-                <web.div className='flex items-center info-item'>
+                {/* <web.div className='flex items-center info-item'>
                     <ErrorIcon className='icon' style={{fontSize: "1.5vw", display: 'none', color: 'red', marginLeft: '1vw'}}></ErrorIcon>
                     <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>Development Mode</web.p>
-                </web.div>
-                <web.div className='flex items-center info-item'>
+                </web.div> */}
+                <web.div className='flex items-center info-item' onClick={()=>window.open('mailto:jithendra567@gmail.com')} style={{cursor: 'pointer'}}>
                     <EmailIcon className='icon' style={{fontSize: "1.5vw", display: 'none', marginLeft: '2vw'}}></EmailIcon>
                     <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567@gmail.com</web.p>
                 </web.div>
-                <web.div className='flex items-center info-item'>
+                <web.div className='flex items-center info-item' onClick={()=>window.open('https://www.linkedin.com/in/sai-jithendhra/')} style={{cursor: 'pointer'}}>
                     <LinkedInIcon className='icon' style={{fontSize: "1.5vw", display: 'none', marginLeft: '2vw'}}></LinkedInIcon>
                     <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>sai-jithendhra</web.p>
                 </web.div>
-                <web.div className='flex items-center info-item'>
+                <web.div className='flex items-center info-item' onClick={()=>window.open('https://github.com/jithendra567')} style={{cursor: 'pointer'}}>
                     <GitHubIcon className='icon' style={{fontSize: "1.5vw", display: 'none' , marginLeft: '2vw'}}></GitHubIcon>
                     <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}>jithendhra567</web.p>
+                </web.div>
+                <web.div className='flex items-center info-item' onClick={()=>window.open('https://drive.google.com/file/d/1ZNB0xniPNJ0y6XdfHsdXbBBnxQ2E2agz/view?usp=sharing')} style={{cursor: 'pointer'}}>
+                    <Info className='icon' style={{fontSize: "1.5vw", display: 'none' , marginLeft: '2vw'}}></Info>
+                    <web.p className='futura hide' style={{fontSize: "0.8vw", marginLeft: '0.5vw'}}> Download Resume</web.p>
                 </web.div>
             </web.div>
             <div id="arrowAnim">
